@@ -3,7 +3,7 @@
 # The window class lets a window manager float the menu (e.g. Hyprland/Sway rule on "ssh-menu").
 term_pick() {
     local t
-    if [ -n "$SSHM_TERMINAL" ]; then echo "$SSHM_TERMINAL"; return; fi
+    if [ -n "${SSHM_TERMINAL:-}" ]; then echo "$SSHM_TERMINAL"; return; fi
     for t in kitty foot alacritty wezterm ghostty konsole ptyxis gnome-terminal xfce4-terminal xterm; do
         command -v "$t" >/dev/null 2>&1 && { echo "$t"; return; }
     done
