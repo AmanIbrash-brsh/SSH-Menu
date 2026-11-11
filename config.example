@@ -1,0 +1,21 @@
+# SSH Menu settings, shell syntax. Lives in ~/.config/ssh-menu/config.
+# Everything is optional: uncomment only what you want to change.
+
+# Terminal for ssh-menu-popup and broadcast windows.
+# Default: the first one found of kitty foot alacritty wezterm ghostty konsole ptyxis gnome-terminal xfce4-terminal xterm
+#SSHM_TERMINAL=kitty
+# Extra terminal options, e.g. a smaller font in kitty:
+#SSHM_TERMINAL_ARGS="-o font_size=12"
+
+# Browser for Alt+W (default: xdg-open, i.e. your default browser)
+#SSHM_BROWSER=firefox
+#SSHM_BROWSER="flatpak run com.google.Chrome"
+
+# File manager for Alt+F; it gets an sftp://host/ address (default: nautilus, otherwise xdg-open)
+#SSHM_FILES=dolphin
+
+# Editor for Alt+E, called as: <editor> +LINE ~/.ssh/config (default: $EDITOR, then micro, nano, vim)
+#SSHM_EDITOR=micro
+
+# fzf binary (default: the copy install.sh bundled if the system one is too old, else fzf from PATH)
+#SSHM_FZF=/usr/bin/fzf

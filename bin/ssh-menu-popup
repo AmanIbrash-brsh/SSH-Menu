@@ -1,0 +1,9 @@
+#!/bin/bash
+# Open SSH Menu in its own terminal window. Bind this to a hotkey (e.g. Super+S).
+S=$(readlink -f "$0")
+ROOT=$(cd "$(dirname "$S")/.." && pwd)
+conf=${XDG_CONFIG_HOME:-$HOME/.config}/ssh-menu/config
+[ -r "$conf" ] && . "$conf"
+. "$ROOT/lib/term.sh"
+export SSH_MENU=1   # tells the menu it owns this window (it is closed / re-tiled on connect)
+term_run "ssh menu" ssh-menu "$ROOT/bin/ssh-menu"
