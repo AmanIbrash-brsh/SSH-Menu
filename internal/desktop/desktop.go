@@ -8,6 +8,7 @@ import (
 	"path/filepath"
 	"strings"
 	"syscall"
+	"unicode/utf8"
 
 	"github.com/AmanIbrash-brsh/SSH-Menu/internal/config"
 )
@@ -18,9 +19,26 @@ func Have(name string) bool {
 	return err == nil
 }
 
+// CleanEnv is the environment handed to programs we start on the desktop.
+// Shells leave things in it that other programs choke on: zsh exports "_" (the
+// path of the command) in its internal encoding, which is not valid UTF-8 when
+// the path has certain non-ASCII letters (e.g. ~/Загрузки), and kitty refuses to
+// start a window with such a variable. Anything that is not UTF-8 is dropped.
+func CleanEnv(extra ...string) []string {
+	var env []string
+	for _, kv := range os.Environ() {
+		if strings.HasPrefix(kv, "_=") || !utf8.ValidString(kv) {
+			continue
+		}
+		env = append(env, kv)
+	}
+	return append(env, extra...)
+}
+
 // Detach starts a program that outlives the menu window.
 func Detach(argv ...string) error {
 	cmd := exec.Command(argv[0], argv[1:]...)
+	cmd.Env = CleanEnv()
 	cmd.SysProcAttr = &syscall.SysProcAttr{Setsid: true}
 	if err := cmd.Start(); err != nil {
 		return err

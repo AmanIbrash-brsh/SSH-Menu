@@ -140,7 +140,7 @@ func popup() int {
 		return 1
 	}
 	// SSH_MENU=1 tells the menu it owns the window (it is re-tiled when a session starts)
-	err = syscall.Exec(path, argv, append(os.Environ(), "SSH_MENU=1"))
+	err = syscall.Exec(path, argv, desktop.CleanEnv("SSH_MENU=1"))
 	fmt.Fprintln(os.Stderr, "ssh-menu:", err)
 	return 1
 }
